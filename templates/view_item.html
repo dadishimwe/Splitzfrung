@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}{{ item.serial_number }} - ZUBA Inventory{% endblock %}
+
+{% block page_title %}Item Details: {{ item.serial_number }}{% endblock %}
+
+{% block header_buttons %}
+{% if current_user.role in ['admin', 'inventory_manager'] %}
+<a href="{{ url_for('edit_item', item_id=item.id) }}" class="btn btn-outline-secondary me-2">
+    <i class="fas fa-edit"></i> Edit Item
+</a>
+{% endif %}
+{% if current_user.role in ['admin', 'inventory_manager', 'technician'] %}
+<a href="{{ url_for('add_maintenance', item_id=item.id) }}" class="btn btn-outline-warning">
+    <i class="fas fa-tools"></i> Add Maintenance Record
+</a>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Item Details -->
+    <div class="col-lg-8">
+        <div class="item-details">
+            <div class="item-details-header">
+                <h4>{{ item.item_type }} ({{ item.category }})</h4>
+                <div>
+                    <span class="badge rounded-pill item-status fs-6">{{ item.status }}</span>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="item-property">
+                        <div class="item-property-label">Serial Number</div>
+                        <div>{{ item.serial_number }}</div>
+                    </div>
+                    
+                    <div class="item-property">
+                        <div class="item-property-label">Model</div>
+                        <div>{{ item.model or 'Not specified' }}</div>
+                    </div>
+                    
+                    <div class="item-property">
+                        <div class="item-property-label">Quantity</div>
+                        <div>{{ item.quantity }}</div>
+                    </div>
+                    
+                    <div class="item-property">
+                        <div class="item-property-label">Location</div>
+                        <div>{{ item.location or 'Not assigned' }}</div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="item-property">
+                        <div class="item-property-label">Purchase Date</div>
+                        <div>{{ item.purchase_date or 'Not recorded' }}</div>
+                    </div>
+                    
+                    <div class="item-property">
+                        <div class="item-property-label">Warranty Expiry</div>
+                        <div>{{ item.warranty_expiry or 'Not recorded' }}</div>
+                    </div>
+                    
+                    <div class="item-property">
+                        <div class="item-property-label">Notes</div>
+                        <div>{{ item.notes or 'No notes' }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Maintenance History -->
+        <div class="item-details mt-4">
+            <h5 class="mb-3">Maintenance History</h5>
+            
+            {% if maintenance %}
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Performed By</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in maintenance %}
+                                <tr>
+                                    <td>{{ record.maintenance_date }}</td>
+                                    <td>{{ record.performed_by }}</td>
+                                    <td>{{ record.description }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-muted">No maintenance records found for this item.</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Activity Log -->
+    <div class="col-lg-4">
+        <div class="item-details">
+            <h5 class="mb-3">Activity Log</h5>
+            
+            <div class="activity-log">
+                {% if activities %}
+                    {% for activity in activities %}
+                        <div class="activity-log-item">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <strong>{{ activity.username }}</strong> 
+                                    {{ activity.action }}
+                                </div>
+                                <div class="activity-timestamp">
+                                    {{ activity.timestamp }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted text-center">No activity recorded for this item</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- QR Code (could be implemented later) -->
+        <div class="item-details mt-4">
+            <h5 class="mb-3">QR Code</h5>
+            <div class="text-center">
+                <div class="border p-3">
+                    <p class="text-muted mb-0">QR code generation feature coming soon</p>
+                </div>
+                <button class="btn btn-sm btn-outline-secondary mt-2" disabled>
+                    <i class="fas fa-print"></i> Print QR Code
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

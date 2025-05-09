@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Reports - ZUBA Inventory{% endblock %}
+
+{% block page_title %}Reports{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <h5 class="mb-0">Inventory Status Report</h5>
+            </div>
+            <div class="card-body">
+                <p>Shows the count of items by category, type, and status.</p>
+                <form method="post" action="{{ url_for('generate_report') }}">
+                    <input type="hidden" name="report_type" value="inventory_status">
+                    <div class="d-grid gap-2">
+                        <div class="btn-group" role="group">
+                            <button type="submit" class="btn btn-primary" name="format" value="html">
+                                <i class="fas fa-table"></i> View Report
+                            </button>
+                            <button type="submit" class="btn btn-outline-secondary" name="format" value="csv">
+                                <i class="fas fa-file-csv"></i> Export CSV
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <h5 class="mb-0">Location Inventory Report</h5>
+            </div>
+            <div class="card-body">
+                <p>Breakdown of items by location, category and type.</p>
+                <form method="post" action="{{ url_for('generate_report') }}">
+                    <input type="hidden" name="report_type" value="location_inventory">
+                    <div class="d-grid gap-2">
+                        <div class="btn-group" role="group">
+                            <button type="submit" class="btn btn-primary" name="format" value="html">
+                                <i class="fas fa-table"></i> View Report
+                            </button>
+                            <button type="submit" class="btn btn-outline-secondary" name="format" value="csv">
+                                <i class="fas fa-file-csv"></i> Export CSV
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <h5 class="mb-0">Maintenance History Report</h5>
+            </div>
+            <div class="card-body">
+                <p>History of all maintenance activities performed on equipment.</p>
+                <form method="post" action="{{ url_for('generate_report') }}">
+                    <input type="hidden" name="report_type" value="maintenance_history">
+                    <div class="d-grid gap-2">
+                        <div class="btn-group" role="group">
+                            <button type="submit" class="btn btn-primary" name="format" value="html">
+                                <i class="fas fa-table"></i> View Report
+                            </button>
+                            <button type="submit" class="btn btn-outline-secondary" name="format" value="csv">
+                                <i class="fas fa-file-csv"></i> Export CSV
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <h5 class="mb-0">Warranty Status Report</h5>
+            </div>
+            <div class="card-body">
+                <p>Items with upcoming or expired warranty dates.</p>
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> This report will be available in a future update.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <h5 class="mb-0">Activity Log Report</h5>
+            </div>
+            <div class="card-body">
+                <p>User activity and system changes over time.</p>
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> This report will be available in a future update.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

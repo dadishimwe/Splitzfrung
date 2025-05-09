@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Add New User - ZUBA Inventory{% endblock %}
+
+{% block page_title %}Add New User{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <form method="post" action="{{ url_for('add_user') }}">
+        <div class="row">
+            <!-- Username -->
+            <div class="col-md-6 mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            
+            <!-- Name -->
+            <div class="col-md-6 mb-3">
+                <label for="name" class="form-label">Full Name</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            
+            <!-- Password -->
+            <div class="col-md-6 mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+                <div class="form-text">Password must be at least 8 characters.</div>
+            </div>
+            
+            <!-- Role -->
+            <div class="col-md-6 mb-3">
+                <label for="role" class="form-label">Role</label>
+                <select id="role" name="role" class="form-select" required>
+                    <option value="admin">Admin</option>
+                    <option value="inventory_manager" selected>Inventory Manager</option>
+                    <option value="technician">Technician</option>
+                    <option value="viewer">Viewer</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="d-flex justify-content-between">
+            <a href="{{ url_for('users_list') }}" class="btn btn-outline-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">Add User</button>
+        </div>
+    </form>
+</div>
+
+<!-- Role Descriptions -->
+<div class="card mt-4">
+    <div class="card-header">
+        <h5 class="mb-0">Role Descriptions</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <h6><span class="badge bg-danger">Admin</span></h6>
+                    <p>Full access to all features, including user management, database administration, and system settings.</p>
+                </div>
+                <div class="mb-3">
+                    <h6><span class="badge bg-primary">Inventory Manager</span></h6>
+                    <p>Can add, edit, and manage inventory items, locations, and generate reports.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <h6><span class="badge bg-success">Technician</span></h6>
+                    <p>Can view inventory, add maintenance records, and update item status.</p>
+                </div>
+                <div class="mb-3">
+                    <h6><span class="badge bg-secondary">Viewer</span></h6>
+                    <p>Read-only access to inventory and reports. Cannot make changes to the system.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const passwordInput = document.getElementById('password');
+        
+        passwordInput.addEventListener('input', function() {
+            if (this.value.length < 8) {
+                this.classList.add('is-invalid');
+                this.classList.remove('is-valid');
+            } else {
+                this.classList.remove('is-invalid');
+                this.classList.add('is-valid');
+            }
+        });
+    });
+</script>
+{% endblock %}

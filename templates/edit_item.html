@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Item: {{ item.serial_number }} - ZUBA Inventory{% endblock %}
+
+{% block page_title %}Edit Item: {{ item.serial_number }}{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <form method="post" action="{{ url_for('edit_item', item_id=item.id) }}">
+        <div class="row">
+            <!-- Item Type -->
+            <div class="col-md-6 mb-3">
+                <label for="item_type_id" class="form-label">Item Type</label>
+                <select id="item_type_id" name="item_type_id" class="form-select" required>
+                    <option value="">Select Type</option>
+                    {% for item_type in item_types %}
+                        <option value="{{ item_type.id }}" {% if item.item_type_id == item_type.id %}selected{% endif %}>
+                            {{ item_type.category_name }} - {{ item_type.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <!-- Serial Number -->
+            <div class="col-md-6 mb-3">
+                <label for="serialNumber" class="form-label">Serial Number</label>
+                <input type="text" class="form-control" id="serialNumber" name="serial_number" value="{{ item.serial_number }}" required>
+                <div id="serialNumberFeedback"></div>
+            </div>
+            
+            <!-- Model -->
+            <div class="col-md-6 mb-3">
+                <label for="model" class="form-label">Model</label>
+                <input type="text" class="form-control" id="model" name="model" value="{{ item.model }}">
+            </div>
+            
+            <!-- Status -->
+            <div class="col-md-6 mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select id="status" name="status" class="form-select" required>
+                    <option value="In stock" {% if item.status == 'In stock' %}selected{% endif %}>In stock</option>
+                    <option value="Installed" {% if item.status == 'Installed' %}selected{% endif %}>Installed</option>
+                    <option value="Maintenance" {% if item.status == 'Maintenance' %}selected{% endif %}>Maintenance</option>
+                    <option value="Decommissioned" {% if item.status == 'Decommissioned' %}selected{% endif %}>Decommissioned</option>
+                </select>
+            </div>
+            
+            <!-- Location -->
+            <div class="col-md-6 mb-3">
+                <label for="location_id" class="form-label">Location</label>
+                <select id="location_id" name="location_id" class="form-select">
+                    <option value="">Not Assigned</option>
+                    {% for location in locations %}
+                        <option value="{{ location.id }}" {% if item.location_id == location.id %}selected{% endif %}>
+                            {{ location.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <!-- Quantity -->
+            <div class="col-md-6 mb-3">
+                <label for="quantity" class="form-label">Quantity</label>
+                <input type="number" class="form-control" id="quantity" name="quantity" value="{{ item.quantity }}" min="1" required>
+            </div>
+            
+            <!-- Purchase Date -->
+            <div class="col-md-6 mb-3">
+                <label for="purchase_date" class="form-label">Purchase Date</label>
+                <input type="date" class="form-control" id="purchase_date" name="purchase_date" value="{{ item.purchase_date }}">
+            </div>
+            
+            <!-- Warranty Expiry -->
+            <div class="col-md-6 mb-3">
+                <label for="warranty_expiry" class="form-label">Warranty Expiry</label>
+                <input type="date" class="form-control" id="warranty_expiry" name="warranty_expiry" value="{{ item.warranty_expiry }}">
+            </div>
+            
+            <!-- Notes -->
+            <div class="col-12 mb-3">
+                <label for="notes" class="form-label">Notes</label>
+                <textarea class="form-control" id="notes" name="notes" rows="3">{{ item.notes }}</textarea>
+            </div>
+        </div>
+        
+        <div class="d-flex justify-content-between">
+            <a href="{{ url_for('view_item', item_id=item.id) }}" class="btn btn-outline-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

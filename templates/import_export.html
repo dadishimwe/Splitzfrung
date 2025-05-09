@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Import/Export - ZUBA Inventory{% endblock %}
+
+{% block page_title %}Import/Export Data{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Import Section -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Import Data</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{{ url_for('import_data') }}" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="import_type" class="form-label">Import Type</label>
+                        <select id="import_type" name="import_type" class="form-select" required>
+                            <option value="items">Inventory Items</option>
+                            <option value="locations">Locations</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="file" class="form-label">CSV File</label>
+                        <input type="file" class="form-control" id="file" name="file" accept=".csv" required>
+                        <div class="form-text">Only CSV files are supported.</div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-file-import"></i> Import Data
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- CSV Templates -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="mb-0">CSV Templates</h5>
+            </div>
+            <div class="card-body">
+                <p>Download CSV templates for importing data:</p>
+                <div class="d-grid gap-2">
+                    <a href="#" class="btn btn-outline-secondary">
+                        <i class="fas fa-download"></i> Items Template
+                    </a>
+                    <a href="#" class="btn btn-outline-secondary">
+                        <i class="fas fa-download"></i> Locations Template
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Export Section -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Export Data</h5>
+            </div>
+            <div class="card-body">
+                <p>Export your inventory data to CSV files:</p>
+                
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('export_data', export_type='items') }}" class="btn btn-primary">
+                        <i class="fas fa-file-export"></i> Export All Items
+                    </a>
+                    <a href="{{ url_for('export_data', export_type='locations') }}" class="btn btn-primary">
+                        <i class="fas fa-file-export"></i> Export Locations
+                    </a>
+                </div>
+                
+                <hr>
+                
+                <p>For more specific exports, use the Reports section:</p>
+                <div class="d-grid">
+                    <a href="{{ url_for('reports') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-chart-bar"></i> Go to Reports
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Import/Export Guide -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="mb-0">Import/Export Guide</h5>
+            </div>
+            <div class="card-body">
+                <h6>CSV Format Guidelines:</h6>
+                <ul>
+                    <li>First row must contain column headers</li>
+                    <li>Required columns for Items: <code>serial_number</code>, <code>item_type</code></li>
+                    <li>Required columns for Locations: <code>name</code></li>
+                    <li>Use UTF-8 encoding for all CSV files</li>
+                    <li>Dates should be in YYYY-MM-DD format</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

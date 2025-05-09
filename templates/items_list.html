@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}Inventory Items - ZUBA Inventory{% endblock %}
+
+{% block page_title %}Inventory Items{% endblock %}
+
+{% block header_buttons %}
+{% if current_user.role in ['admin', 'inventory_manager'] %}
+<a href="{{ url_for('add_item') }}" class="btn btn-primary">
+    <i class="fas fa-plus-circle"></i> Add New Item
+</a>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="table-container">
+    <!-- Search and Filter Form -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <form id="searchForm" action="{{ url_for('items_list') }}" method="get" class="d-flex">
+                <input type="hidden" name="category" value="{{ selected_category }}">
+                <input type="hidden" name="status" value="{{ selected_status }}">
+                <input type="hidden" name="location" value="{{ selected_location }}">
+                <div class="input-group">
+                    <input type="text" id="searchInput" name="search" class="form-control" placeholder="Search by serial number, model, location..." value="{{ search }}">
+                    <button type="submit" class="btn btn-outline-secondary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-4 text-end">
+            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#filterCollapse">
+                <i class="fas fa-filter"></i> Filters
+            </button>
+        </div>
+    </div>
+    
+    <!-- Collapsible Filter Panel -->
+    <div class="collapse mb-4" id="filterCollapse">
+        <div class="card card-body">
+            <form id="filterForm" action="{{ url_for('items_list') }}" method="get">
+                <input type="hidden" name="search" value="{{ search }}">
+                <div class="row">
+                    <div class="col-md-4 mb-2">
+                        <label for="categoryFilter" class="form-label">Category</label>
+                        <select id="categoryFilter" name="category" class="form-select">
+                            <option value="">All Categories</option>
+                            {% for category in categories %}
+                                <option value="{{ category.id }}" {% if selected_category == category.id|string %}selected{% endif %}>
+                                    {{ category.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label for="statusFilter" class="form-label">Status</label>
+                        <select id="statusFilter" name="status" class="form-select">
+                            <option value="">All Statuses</option>
+                            <option value="In stock" {% if selected_status == "In stock" %}selected{% endif %}>In stock</option>
+                            <option value="Installed" {% if selected_status == "Installed" %}selected{% endif %}>Installed</option>
+                            <option value="Maintenance" {% if selected_status == "Maintenance" %}selected{% endif %}>Maintenance</option>
+                            <option value="Decommissioned" {% if selected_status == "Decommissioned" %}selected{% endif %}>Decommissioned</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label for="locationFilter" class="form-label">Location</label>
+                        <select id="locationFilter" name="location" class="form-select">
+                            <option value="">All Locations</option>
+                            {% for location in locations %}
+                                <option value="{{ location.id }}" {% if selected_location == location.id|string %}selected{% endif %}>
+                                    {{ location.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="text-end mt-2">
+                    <button type="submit" class="btn btn-primary">Apply Filters</button>
+                    <a href="{{ url_for('items_list') }}" class="btn btn-outline-secondary">Clear Filters</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Items Table -->
+    {% if items %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Serial Number</th>
+                        <th>Category</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Location</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                        <tr>
+                            <td>{{ item.serial_number }}</td>
+                            <td>{{ item.category }}</td>
+                            <td>{{ item.item_type }}</td>
+                            <td><span class="item-status">{{ item.status }}</span></td>
+                            <td>{{ item.location or 'Not assigned' }}</td>
+                            <td>
+                                <a href="{{ url_for('view_item', item_id=item.id) }}" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="View Details">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                {% if current_user.role in ['admin', 'inventory_manager'] %}
+                                <a href="{{ url_for('edit_item', item_id=item.id) }}" class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="Edit Item">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                {% endif %}
+                                {% if current_user.role in ['admin', 'inventory_manager', 'technician'] %}
+                                <a href="{{ url_for('add_maintenance', item_id=item.id) }}" class="btn btn-sm btn-outline-warning" data-bs-toggle="tooltip" title="Add Maintenance Record">
+                                    <i class="fas fa-tools"></i>
+                                </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center" role="alert">
+            No items found matching your criteria.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

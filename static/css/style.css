@@ -1,0 +1,182 @@
+/* Custom styles for ZUBA Inventory System */
+
+/* General styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Dashboard widgets */
+.dashboard-widget {
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+
+.dashboard-widget-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.dashboard-widget .card {
+    border: none;
+    border-radius: 8px;
+    transition: transform 0.2s;
+}
+
+.dashboard-widget .card:hover {
+    transform: translateY(-5px);
+}
+
+/* Status colors */
+.status-in-stock {
+    color: #198754;
+}
+
+.status-installed {
+    color: #0d6efd;
+}
+
+.status-maintenance {
+    color: #fd7e14;
+}
+
+.status-decommissioned {
+    color: #dc3545;
+}
+
+/* Sidebar */
+.sidebar {
+    min-height: 100vh;
+    background-color: #343a40;
+    color: white;
+}
+
+.sidebar a {
+    color: rgba(255, 255, 255, 0.8);
+    padding: 0.5rem 1rem;
+    display: block;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar .nav-item i {
+    width: 24px;
+    margin-right: 8px;
+    text-align: center;
+}
+
+/* Login page */
+.login-container {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+
+.login-logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Tables */
+.table-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    margin-bottom: 2rem;
+}
+
+.table th {
+    background-color: #f8f9fa;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+}
+
+/* Forms */
+.form-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.form-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+/* Item view page */
+.item-details {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.item-details-header {
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.item-property {
+    margin-bottom: 0.5rem;
+}
+
+.item-property-label {
+    font-weight: 500;
+    color: #6c757d;
+}
+
+/* Activity log */
+.activity-log {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.activity-log-item {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.activity-log-item:last-child {
+    border-bottom: none;
+}
+
+.activity-timestamp {
+    color: #6c757d;
+    font-size: 0.85rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        min-height: auto;
+    }
+    
+    .form-container,
+    .table-container,
+    .item-details {
+        padding: 1rem;
+    }
+}
